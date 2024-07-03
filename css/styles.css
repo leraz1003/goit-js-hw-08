@@ -30,3 +30,10 @@ img {
   padding-top: 24px;
   padding-bottom: 24px;
 }
+
+.gallery li a:hover img {
+  width: 376px;
+  height: 208px;
+  margin: -8px;
+  transition: width 300ms linear, height 300ms linear;
+}
