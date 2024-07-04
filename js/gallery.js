@@ -65,12 +65,12 @@ const images = [
 ];
 
 
-const list = document.querySelector(".gallery");
+const gallery = document.querySelector(".gallery");
 
 function createGallery(images) {
     return images
-        .map(({ preview, original, description }) => {
-        list.insertAdjacentHTML('beforeend', `<li class="gallery-item">
+        .map(({ preview, original, description }) => 
+        `<li class="gallery-item">
         <a class="gallery-link" href="${original}">
             <img
             class="gallery-image"
@@ -79,32 +79,31 @@ function createGallery(images) {
             alt="${description}"
             />
         </a>
-        </li>
-    `)});
+        </li>`)
+        .join("");
 }
 
-createGallery(images);
+gallery.insertAdjacentHTML('beforeend', createGallery(images));
 
-
-list.addEventListener('click', imgCardClick);
+gallery.addEventListener('click', imgCardClick);
 
 
 function imgCardClick(event) {
     event.preventDefault();
 
-    if (event.target === event.currentTarget) {
-        return;
-    };
+    if (event.target.nodeName  === "IMG") {
+        const checkImg = images.find(({ original }) => original === event.target.dataset.source);
 
-    const checkImg = images.find(({ original }) => original === event.target.dataset.source);
+        const instance = basicLightbox.create(`
+            <div class='modal'>
+                <img
+                    src="${checkImg.original}"
+                    alt="${checkImg.description}"
+                />
+            </div>
+        `);
+        instance.show();
+    }else return;
 
-    const instance = basicLightbox.create(`
-        <div class='modal'>
-            <img
-                src="${checkImg.original}"
-                alt="${checkImg.description}"
-            />
-        </div>
-    `);
-    instance.show();
+    
 }
